@@ -1,0 +1,4 @@
+---
+name: 100x100.png
+model_class: Workarea::Content::Asset
+model_attachment: file
