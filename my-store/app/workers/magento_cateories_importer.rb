@@ -26,7 +26,11 @@ module Workarea
       end
 
       category_products.each do |key, value|
-        Workarea::Catalog::Category.create!(name: key, product_ids: value)
+        begin
+          Workarea::Catalog::Category.find_by(name: key)
+        rescue Mongoid::Errors::DocumentNotFound
+          Workarea::Catalog::Category.create!(name: key, product_ids: value)
+        end
       end
     end
   end

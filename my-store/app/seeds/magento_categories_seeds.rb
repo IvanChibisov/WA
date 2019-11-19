@@ -3,8 +3,12 @@ module Workarea
 
     def perform
       puts 'Importing Magento categories using MagentoCategoriesImporter ...'
+      root = 'app/workers/data/'
+      files = ["products_gear_bags.csv", "products_gear_fitness_equipment_ball.csv", "products_gear_fitness_equipment_strap.csv", "products_gear_fitness_equipment.csv", "products_gear_watches.csv"]
 
-      MagentoCategoriesImporter.new('app/workers/data/products_gear_bags.csv').run
+      files.each do |x|
+        MagentoCategoriesImporter.new(root + x).run
+      end
     end
   end
 end
