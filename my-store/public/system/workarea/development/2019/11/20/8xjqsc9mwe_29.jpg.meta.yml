@@ -1,0 +1,4 @@
+---
+name: 29.jpg
+model_class: Workarea::Catalog::ProductImage
+model_attachment: image

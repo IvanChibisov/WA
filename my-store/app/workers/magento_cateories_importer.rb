@@ -9,6 +9,7 @@ module Workarea
       file = CSV.parse(File.read(@products_file), headers: true)
       c = Array.new
       c1 = Array.new
+      
       file.each do |category|
         c << category['category']
       end
@@ -19,6 +20,7 @@ module Workarea
       c1.uniq!
 
       category_products = Hash.new {|hash, key| hash[key] = []}
+
       file.each do |x|
         c1.each do |el|
           category_products[el] << x['sku'] if x['category'].include? el
@@ -27,7 +29,11 @@ module Workarea
 
       category_products.each do |key, value|
         begin
-          Workarea::Catalog::Category.find_by(name: key)
+          cat = Workarea::Catalog::Category.find_by(name: key)
+          unless cat.nil?
+            value.each { |x| cat.product_ids << x }
+            cat.save!
+          end
         rescue Mongoid::Errors::DocumentNotFound
           Workarea::Catalog::Category.create!(name: key, product_ids: value)
         end

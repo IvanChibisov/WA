@@ -1,0 +1,4 @@
+---
+name: favicon_placeholder.png
+model_class: Workarea::Content::Asset
+model_attachment: file
