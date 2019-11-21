@@ -7,23 +7,19 @@ module Workarea
 
     def run
       file = CSV.parse(File.read(@products_file), headers: true)
-      c = Array.new
-      c1 = Array.new
-      
-      file.each do |category|
-        c << category['category']
+      all_categories = Array.new
+      file.each do |row|
+        row['category'].split("\n").each do |elem|
+          if !all_categories.include? elem
+            all_categories << elem
+          end
+        end
       end
-      c.uniq!
-      c.each do |x|
-        x.split("\n").each {|a| c1 << a}
-      end
-      c1.uniq!
 
       category_products = Hash.new {|hash, key| hash[key] = []}
-
-      file.each do |x|
-        c1.each do |el|
-          category_products[el] << x['sku'] if x['category'].include? el
+      file.each do |row|
+        all_categories.each do |category|
+          category_products[category] << row['sku'] if row['category'].include? category
         end
       end
 
