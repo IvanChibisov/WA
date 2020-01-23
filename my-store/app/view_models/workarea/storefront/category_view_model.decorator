@@ -1,0 +1,9 @@
+module Workarea
+  decorate Storefront::CategoryViewModel do
+    def facets
+      super.delete_if do |facet|
+        facet.system_name == 'price'
+      end
+    end
+  end
+end

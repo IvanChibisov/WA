@@ -1,0 +1,2 @@
+- if model.account.present?
+  .grid__cell= link_to t('workarea.admin.orders.view_account', account: model.account.name), organization_account_path(model.account), local_assigns[:html_options]

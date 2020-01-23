@@ -1,0 +1,38 @@
+- @page_title = t('workarea.organization_accounts.new.page_title')
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--50
+      .grid__cell.grid__cell--50
+        .view__heading
+          //= link_to_index_for(@account)
+          %h1= t('workarea.organization_accounts.new.page_title')
+
+  .view__container.view__container--narrow
+
+    = form_tag join_path, method: :post, id: 'account_form', data: { unsaved_changes: '' } do
+
+      .section
+
+
+        .grid.grid--huge
+          .grid__cell.grid__cell--25
+
+            .property.property--required
+              = label_tag 'organization[name]', t(@organization_name), class: 'property__name'
+
+            .property
+              = label_tag 'account_name', t('workarea.fields.account_name'), class: 'property__name'
+              = select_tag 'account[name]', options_for_select(@account_params)
+
+          .grid__cell.grid__cell--25
+            .property
+              = label_tag 'join_email', t('workarea.fields.joined_email'), class: 'property__name'
+              = text_field_tag 'joined[email]', @joined, class: 'text-box text-box--medium'
+
+
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.organization_accounts.new.button'), value: 'join_account', class: 'workflow-bar__button workflow-bar__button--update'

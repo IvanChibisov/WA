@@ -1,0 +1,25 @@
+.grid__cell
+  .card{ class: card_classes(:memberships, local_assigns[:active]) }
+    = link_to memberships_user_path(model), class: 'card__header' do
+      %span.card__header-text= t('workarea.admin.users.cards.memberships.title')
+      = inline_svg 'workarea/admin/icons/user.svg', class: 'card__icon'
+
+    - if local_assigns[:active].blank?
+      .card__body
+        - if model.memberships.empty?
+          %p.card__empty-note= t('workarea.admin.users.cards.memberships.empty')
+          = link_to memberships_user_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.users.cards.memberships.add_memberships')
+        - else
+          %ul.list-reset
+            - model.memberships.take(10).each do |membership|
+              %li
+                %strong= membership.organization_name
+                = membership.account_name
+                = membership.role
+
+            - if model.memberships.size > 10
+              %p= t('workarea.admin.cards.more', amount: model.memberships.size - 10)
+
+          = link_to memberships_user_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.users.cards.memberships.button')

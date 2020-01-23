@@ -1,0 +1,34 @@
+- @page_title = t('workarea.admin.pricing_price_lists.new.page_title')
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@price_list)
+          %h1= t('workarea.admin.pricing_price_lists.new.page_title')
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@price_list)
+
+  .view__container.view__container--narrow
+    - if @price_list.errors.present?
+      - @price_list.errors.full_messages.each do |message|
+        = render_message 'error', message
+
+    = form_tag pricing_price_lists_path, method: :post, id: 'account_form', data: { unsaved_changes: '' } do
+
+      .section
+        .property
+          = label_tag 'price_list_id', t('workarea.admin.fields.id'), class: 'property__name'
+          = text_field_tag 'price_list[id]', @price_list.id, class: 'text-box text-box--i18n'
+
+        .property.property--required
+          = label_tag 'price_list_name', t('workarea.admin.fields.name'), class: 'property__name'
+          = text_field_tag 'price_list[name]', @price_list.name, class: 'text-box text-box--i18n', required: true
+
+          = append_partials('admin.price_list_fields', price_list: @price_list)
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.pricing_price_lists.new.button'), value: 'create_price_list', class: 'workflow-bar__button workflow-bar__button--update'

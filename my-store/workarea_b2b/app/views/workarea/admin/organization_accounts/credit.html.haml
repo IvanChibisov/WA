@@ -1,0 +1,84 @@
+- @page_title = t('workarea.admin.organization_accounts.credit.page_title', account: @account.name)
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@account)
+          %h1= link_to @account.name, url_for(@account)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@account)
+
+  .view__container
+    = render_cards_for(@account, :credit)
+
+  .view__container.view__container--narrow
+    .section
+      .grid.grid--center
+        .grid__cell.grid__cell--50
+          .grid.grid--center
+            .grid__cell.grid__cell--25
+              .align-center
+                %span.heading.heading--2.heading--no-margin= number_to_currency(@account.credit_limit)
+                %p= t('workarea.admin.fields.credit_limit')
+
+            .grid__cell.grid__cell--25
+              .align-center
+                %span.heading.heading--2.heading--no-margin= number_to_currency(@account.balance)
+                %p= t('workarea.admin.fields.balance')
+
+            .grid__cell.grid__cell--25
+              .align-center
+                %span.heading.heading--2.heading--no-margin= number_to_currency(@account.available_credit)
+                %p= t('workarea.admin.organization_accounts.credit.available_credit')
+
+            .grid__cell.grid__cell--25
+              .align-center
+                %span.heading.heading--2.heading--no-margin= @account.credit_transactions.count
+                %p= t('workarea.admin.organization_accounts.credit.transactions')
+
+    .section
+      .grid
+        .grid__cell.grid__cell--50.align-center
+          = form_tag reimburse_organization_account_path(@account), method: :put, id: 'reimburse_credit_form' do
+            .property
+              = label_tag 'amount', t('workarea.admin.fields.reimburse_balance'), class: 'property__name'
+              = currency_symbol
+              - amount = [@account.balance, 0].max
+              = number_field_tag 'amount', amount, class: 'text-box text-box--medium', max: amount, min: 0, step: 0.01
+
+            = button_tag t('workarea.admin.organization_accounts.credit.reimburse'), class: 'button'
+
+        .grid__cell.grid__cell--50.align-center
+          = form_tag organization_account_path(@account), method: :put, id: 'credit_limit_form' do
+            .property
+              = label_tag 'account_credit_limit', t('workarea.admin.fields.credit_limit'), class: 'property__name'
+              = currency_symbol
+              = number_field_tag 'account[credit_limit]', @account.credit_limit, class: 'text-box text-box--medium'
+
+            = button_tag t('workarea.admin.organization_accounts.credit.update'), class: 'button'
+
+    .section
+      %h3.align-center= t('workarea.admin.organization_accounts.credit.transactions')
+
+      - if @transactions.empty?
+        %p.align-center= t('workarea.admin.organization_accounts.credit.empty')
+      - else
+        %table.table
+          %thead
+            %tr
+              %th= t('workarea.admin.fields.action')
+              %th= t('workarea.admin.fields.created_at')
+              %th= t('workarea.admin.fields.amount')
+          %tbody
+          - @transactions.each do |transaction|
+            %tr
+              %td= transaction.action.titleize
+              %td= local_time(transaction.created_at)
+              %td= number_to_currency(transaction.amount)
+
+        - if @transactions.total_pages > 1
+          = render 'workarea/admin/shared/pagination', collection: @transactions

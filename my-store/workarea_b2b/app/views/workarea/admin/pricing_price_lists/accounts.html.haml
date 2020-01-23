@@ -1,0 +1,39 @@
+- @page_title = t('workarea.admin.pricing_price_lists.accounts.page_title', price_list: @price_list.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@price_list)
+          %h1= link_to @price_list.name, url_for(@price_list)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@price_list)
+
+  .view__container.view__container--narrow
+    = render_cards_for(@price_list, :accounts)
+
+    .section
+      %h2.view__heading= t('workarea.admin.pricing_price_lists.accounts.heading')
+
+
+    .browsing-controls.browsing-controls--with-divider.browsing-controls--center
+      %p.browsing-controls__count{ data: { browsing_controls_count: @search.total } }
+        = t('workarea.admin.organization_accounts.index.account_pluralize', count: @search.total)
+
+    - if @search.results.any?
+      %table.index-table
+        %thead
+          %tr
+            %th= t('workarea.admin.fields.name')
+            %th= t('workarea.admin.fields.organization')
+            %th= t('workarea.admin.fields.updated_at')
+        %tbody
+          - @search.results.each do |result|
+            %tr.index-table__row
+              %td= link_to result.name, organization_account_path(result)
+              %td= result.organization.name
+              %td= local_time_ago(result.updated_at)
+
+      - if @search.results.total_pages > 1
+        = render 'workarea/admin/shared/pagination', collection: @search.results

@@ -1,0 +1,11 @@
+.data-card
+  .data-card__cell
+    %p.data-card__line
+      = t('workarea.storefront.orders.terms')
+    - if tender.purchase_order_number.present?
+      %p.data-card__line
+      #{t('workarea.storefront.orders.purchase_order_number')}:
+      = tender.purchase_order_number
+    %p.data-card__line
+      %strong
+        #{t('workarea.storefront.orders.amount')}: #{number_to_currency(tender.amount)}

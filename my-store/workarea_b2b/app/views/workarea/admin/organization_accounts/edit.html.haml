@@ -1,0 +1,71 @@
+- @page_title = t('workarea.admin.organization_accounts.edit.page_title', account: @account.name)
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@account)
+          %h1= link_to @account.name, url_for(@account)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@account)
+
+  .view__container
+    = render_cards_for(@account, :attributes)
+
+  .view__container.view__container--narrow
+    - if @account.errors.present?
+      - @account.errors.full_messages.each do |message|
+        = render_message 'error', message
+
+    = form_tag organization_account_path(@account), method: :patch, id: 'account_form', data: { unsaved_changes: '' } do
+
+      .section
+
+        .property.property--required
+          = label_tag 'account_name', t('workarea.admin.fields.name'), class: 'property__name'
+          = text_field_tag 'account[name]', @account.name, class: 'text-box text-box--i18n', required: true
+
+        .grid.grid--huge
+          .grid__cell.grid__cell--25
+            .property
+              = label_tag 'account_payment_terms', t('workarea.admin.fields.payment_terms'), class: 'property__name'
+              = select_tag 'account[payment_terms]', options_for_select(payment_term_options, @account.payment_terms)
+
+          .grid__cell.grid__cell--50
+            .property
+              = label_tag 'account_price_list_id', t('workarea.admin.fields.price_list_id'), class: 'property__name'
+              = select_tag 'account[price_list_id]', options_for_select(price_list_options, @account.price_list_id), data: { remote_select: { source: pricing_price_lists_path(format: :json), options: { placeholder: t('workarea.admin.fields.price_list_id'), allowClear: true } }.to_json }
+
+          .grid__cell.grid__cell--25
+            .property
+              = label_tag 'account_tax_code', t('workarea.admin.fields.tax_code'), class: 'property__name'
+              = text_field_tag 'account[tax_code]', @account.tax_code, class: 'text-box text-box--medium'
+
+          = append_partials('admin.account_fields', account: @account)
+
+        .grid.grid--huge
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              %span.property__name
+                = t('workarea.admin.fields.active')
+                = inline_svg('workarea/admin/i18n.svg', class: 'svg-icon svg-icon--small') if locale_options.many? && Workarea.config.localized_active_fields
+              = toggle_button_for 'account[active]', @account.active?
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'account_organization', t('workarea.admin.fields.organization'), class: 'property__name'
+              = @account.organization.name
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'account_updated_at', t('workarea.admin.fields.updated_at'), class: 'property__name'
+              = local_time(@account.updated_at)
+          .grid__cell.grid__cell--50.grid__cell--25-at-medium
+            .property
+              = label_tag 'account_created_at', t('workarea.admin.fields.created_at'), class: 'property__name'
+              = local_time(@account.created_at)
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.form.save_changes'), value: 'save_account', class: 'workflow-bar__button workflow-bar__button--update'

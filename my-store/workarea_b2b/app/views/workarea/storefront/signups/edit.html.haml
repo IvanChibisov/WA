@@ -1,0 +1,13 @@
+- @title = t('workarea.storefront.signups.title')
+
+.view
+  %h1= t('workarea.storefront.signups.title')
+
+  = form_tag signup_path(@signup.token), id: 'signup_form', method: :patch do
+
+    .property
+      = label_tag :password, nil, class: 'property__name' do
+        %span.property__text= t('workarea.storefront.users.password')
+      .value= password_field_tag :password, nil, class: 'text-box', minlength: 7, required: true, autocomplete: 'off'
+
+    %p= button_tag t('workarea.storefront.signups.complete'), value: 'reset_password', class: 'button'

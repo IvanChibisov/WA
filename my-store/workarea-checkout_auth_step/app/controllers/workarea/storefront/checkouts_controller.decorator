@@ -1,0 +1,19 @@
+module Workarea
+  decorate Storefront::CheckoutsController, with: :checkout_auth_step do
+
+    private
+
+    def redirect_to_next_step
+      if current_checkout.complete?
+        flash[:info] = t('workarea.storefront.flash_messages.review_your_order')
+        redirect_to checkout_payment_path
+      else
+        if @current_user.present?
+          redirect_to checkout_addresses_path
+        else
+          redirect_to checkout_authorization_path
+        end
+      end
+    end
+  end
+end

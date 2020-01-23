@@ -1,0 +1,29 @@
+= form_tag organization_memberships_path, method: 'post', id: 'membership_form', data: { unsaved_changes: '' } do
+  = hidden_field_tag :return_to, request.path, id: nil
+
+  - if local_assigns[:user].present?
+    = hidden_field_tag 'user_id', user.id
+  - else
+    .property.property--required
+      = label_tag 'email', t('workarea.admin.fields.email'), class: 'property__name'
+      = email_field_tag 'email', nil, class: 'text-box text-box--wide', required: true, autocorrect: 'off', autocomplete: 'email'
+
+  - if local_assigns[:account].present?
+    = hidden_field_tag 'membership[account_id]', account.id
+  - else
+    .property.property--required
+      = label_tag 'membership[account_id]', t('workarea.admin.fields.account_id'), class: 'property__name'
+      = select_tag 'membership[account_id]', options_for_select(account_options), required: true, data: { remote_select: { source: organization_accounts_path(format: :json), options: { placeholder: t('workarea.admin.fields.account_id') } }.to_json }
+
+  .property.property--required
+    = label_tag 'membership[role]', t('workarea.admin.fields.role'), class: 'property__name'
+    = select_tag 'membership[role]', options_for_select(membership_role_options), required: true
+
+  .property
+    %span.property__name= t('workarea.admin.fields.default')
+    =  toggle_button_for 'membership[default]', false, title_true: t('workarea.admin.organization_memberships.edit.default'), title_false: t('workarea.admin.organization_memberships.edit.not_default')
+    %span.property__note= t('workarea.admin.organization_memberships.edit.default_note')
+
+  = append_partials('admin.organization_membership_fields', user: local_assigns[:user], account: local_assigns[:account])
+
+  = button_tag t('workarea.admin.organization_memberships.new.create_membership'), value: 'create_membership', class: 'button button--small'

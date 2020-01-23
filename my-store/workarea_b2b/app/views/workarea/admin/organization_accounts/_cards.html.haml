@@ -1,0 +1,117 @@
+.grid.grid--auto.grid--flush.grid--center
+  .grid__cell
+    .card{ class: card_classes(:attributes, local_assigns[:active]) }
+      = link_to edit_organization_account_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.cards.attributes.title')
+        = inline_svg 'workarea/admin/icons/attributes.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          %ul.list-reset
+            %li
+              %strong= t('workarea.admin.fields.active')
+              = check_box_tag 'account', 'active', model.active, disabled: true
+            %li
+              %strong= t('workarea.admin.fields.organization')
+              = model.organization.name
+            %li
+              %strong= t('workarea.admin.fields.payment_terms')
+              = model.payment_terms.presence || t('workarea.admin.cards.attributes.no_value')
+            %li
+              %strong= t('workarea.admin.fields.price_list_id')
+              = model.price_list_name.presence || t('workarea.admin.cards.attributes.no_value')
+            %li
+              %strong= t('workarea.admin.fields.tax_code')
+              = model.tax_code.presence || t('workarea.admin.cards.attributes.no_value')
+            %li
+              %strong= t('workarea.admin.fields.updated_at')
+              #{local_time_ago(model.updated_at)}
+            %li
+              %strong= t('workarea.admin.fields.created_at')
+              #{local_time_ago(model.created_at)}
+
+          = link_to edit_organization_account_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.cards.attributes.button')
+
+  .grid__cell
+    .card{ class: card_classes(:credit, local_assigns[:active]) }
+      = link_to credit_organization_account_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.organization_accounts.cards.credit.title')
+        = inline_svg 'workarea/admin/icons/payment_transaction.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          .section
+            .grid
+              .grid__cell.grid__cell--50
+                .align-center
+                  %h3.heading.heading--3.heading--no-margin= number_to_currency(model.credit_limit)
+                  %p= t('workarea.admin.fields.credit_limit')
+
+              .grid__cell.grid__cell--50
+                .align-center
+                  %h3.heading.heading--3.heading--no-margin= model.credit_transactions.count
+                  %p= t('workarea.admin.organization_accounts.credit.transactions')
+
+              .grid__cell.grid__cell--50
+                .align-center
+                  %h3.heading.heading--3.heading--no-margin= number_to_currency(model.balance)
+                  %p= t('workarea.admin.fields.balance')
+
+              .grid__cell.grid__cell--50
+                .align-center
+                  %h3.heading.heading--3.heading--no-margin= number_to_currency(model.available_credit)
+                  %p= t('workarea.admin.organization_accounts.credit.available_credit')
+
+          = link_to credit_organization_account_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.organization_accounts.cards.credit.button')
+
+  .grid__cell
+    .card{ class: card_classes(:memberships, local_assigns[:active]) }
+      = link_to memberships_organization_account_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.organization_accounts.cards.memberships.title')
+        = inline_svg 'workarea/admin/icons/user.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          - if model.memberships.empty?
+            %p.card__empty-note= t('workarea.admin.organization_accounts.cards.memberships.empty')
+          - else
+            %ul.list-reset
+              - model.memberships.take(10).each do |membership|
+                %li
+                  %strong= membership.user.name
+                  = membership.role
+
+              - if model.memberships.size > 10
+                %p= t('workarea.admin.cards.more', amount: model.memberships.size - 10)
+
+          = link_to memberships_organization_account_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.organization_accounts.cards.memberships.button')
+
+  .grid__cell
+    .card{ class: card_classes(:addresses, local_assigns[:active]) }
+      = link_to addresses_organization_account_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.organization_accounts.cards.addresses.title')
+        = inline_svg 'workarea/admin/icons/saved_addresses.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          - if model.addresses.empty?
+            %p.card__empty-note= t('workarea.admin.organization_accounts.cards.addresses.empty')
+          - else
+            %ul.list-reset
+              - model.addresses.each do |address|
+                %li
+                  %p= formatted_address(address)
+
+          = link_to addresses_organization_account_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.organization_accounts.cards.addresses.button')
+
+  = append_partials('admin.organization_account_cards', model: model, active: local_assigns[:active])
+
+  .grid__cell
+    = render 'workarea/admin/timeline/card', timeline: model.timeline, active: local_assigns[:active]
+
+  .grid__cell
+    = render 'workarea/admin/comments/card', commentable: model, active: local_assigns[:active]

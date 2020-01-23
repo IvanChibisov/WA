@@ -1,0 +1,10 @@
+module Workarea
+  decorate Admin::UserViewModel, with: :b2b do
+    def memberships
+      @memberships ||= Admin::MembershipViewModel.wrap(
+        model.memberships.includes(:account),
+        options.merge(user: model)
+      )
+    end
+  end
+end

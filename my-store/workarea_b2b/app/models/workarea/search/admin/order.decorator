@@ -1,0 +1,7 @@
+module Workarea
+  decorate Search::Admin::Order, with: :b2b do
+    def keywords
+      super + [payment.terms&.purchase_order_number].compact
+    end
+  end
+end

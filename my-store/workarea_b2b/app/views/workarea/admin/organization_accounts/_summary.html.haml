@@ -1,0 +1,8 @@
+.summary
+  = link_to organization_account_path(model) do
+    %span.summary__name= model.name
+    .summary__info-container
+      .summary__info
+        #{local_time_ago(model.created_at)}
+      %span.summary__info= model.organization.name
+    %span.summary__type= t('workarea.admin.fields.account_id')

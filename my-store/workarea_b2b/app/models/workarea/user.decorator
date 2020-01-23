@@ -1,0 +1,16 @@
+module Workarea
+  decorate User, with: :b2b do
+    decorated do
+      has_many :memberships, class_name: 'Workarea::Organization::Membership'
+      has_one :signup, class_name: 'Workarea::User::Signup'
+    end
+
+    def memberships_count
+      memberships.count
+    end
+
+    def signup_complete?
+      signup.nil? || signup.complete?
+    end
+  end
+end

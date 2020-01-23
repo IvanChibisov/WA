@@ -1,0 +1,11 @@
+#captioned-image-content-block.style-guide__subsection
+
+  %h3= link_to_style_guide('components', 'captioned_image_content_block')
+
+  %p A content block that displays an image with a caption. Used for figures in technical documentation.
+
+  .style-guide__example-block
+    .captioned-image-content-block
+      %figure.captioned-image-content-block__figure
+        = image_tag('pig.png', alt: 'An ACME widget in all its glory', class: 'captioned-image-content-block__image')
+        %figcaption.captioned-image-content-block__caption An ACME widget in all its glory

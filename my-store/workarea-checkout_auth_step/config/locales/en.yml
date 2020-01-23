@@ -1,0 +1,11 @@
+en:
+  workarea:
+    storefront:
+      checkouts:
+        authorization_step_text: Step 1 - Authorization
+        addresses_first_step_text: Step 1 - Addresses
+        addresses_second_step_text: Step 2 - Addresses
+        shipping_second_step_text: Step 2 - Shipping Options
+        shipping_third_step_text: Step 3 - Shipping Options
+        payment_third_step_text: Step 3 - Payment and Review
+        payment_fourth_step_text: Step 4 - Payment and Review

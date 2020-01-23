@@ -1,0 +1,8 @@
+k = Workarea::Organization.new
+k.name = ""
+k.save
+ b = Workarea::Organization::Account.new
+ b.organization_id = k.id
+ b.name = ""
+ b.save
+rails plugin new path/to/my_plugin --full -m path/to/plugin_template.rb --skip-spring --skip-active-record --skip-action-cable

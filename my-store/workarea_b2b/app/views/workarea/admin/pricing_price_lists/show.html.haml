@@ -1,0 +1,21 @@
+- @page_title = @price_list.name
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@price_list)
+          %h1.heading.heading--no-margin= @price_list.name
+          %p= @price_list.id
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@price_list)
+
+  .view__container
+    = render_cards_for(@price_list)
+
+    .workflow-bar
+      .grid
+        .grid__cell.grid__cell--20
+          = link_to t('workarea.admin.actions.delete'), pricing_price_list_path(@price_list), class: 'workflow-bar__button workflow-bar__button--delete', data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') }

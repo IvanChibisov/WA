@@ -1,0 +1,8 @@
+module Workarea
+  decorate Search::AdminPricingSkus, with: :b2b do
+    def facets
+      @facets_with_price_lists ||=
+        super.tap { |f| f << Search::TermsFacet.new(self, 'price_lists') }
+    end
+  end
+end

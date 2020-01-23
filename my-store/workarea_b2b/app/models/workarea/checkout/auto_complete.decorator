@@ -1,0 +1,25 @@
+module Workarea
+  decorate Checkout::AutoComplete, with: :b2b do
+    decorated { attr_reader :account }
+
+    def initialize(order, payment, user, account = nil)
+      super(order, payment, user)
+      @account = account
+    end
+
+    def billing_address
+      return super unless account&.require_account_address?
+      account.default_billing_address
+    end
+
+    def shipping_address
+      return super unless account&.require_account_address?
+      account.default_shipping_address
+    end
+
+    def credit_card
+      return super unless account&.require_account_payment?
+      payment.account_default_credit_card
+    end
+  end
+end

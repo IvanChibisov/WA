@@ -1,0 +1,20 @@
+module Workarea
+  decorate Search::OrderText, with: :b2b do
+    def text
+      [super, account_text].join(' ')
+    end
+
+    def account_text
+      return '' unless @order.account_id.present?
+      account = Organization::Account.find(@order.account_id)
+      [
+        account.id,
+        account.name,
+        account.organization.id,
+        account.organization.name
+      ].join(' ')
+    rescue Mongoid::Errors::DocumentNotFound
+      ''
+    end
+  end
+end

@@ -1,3 +1,3 @@
-
-Workarea.config.seeds << 'Workarea::MagentoProductsSeeds'
-Workarea.config.seeds << 'Workarea::MagentoCategoriesSeeds'
+Workarea.config.seeds << 'Workarea::VsgB2bProductsSeeds'
+Workarea.config.seeds << 'Workarea::VsgB2bCategoriesSeeds'
+Workarea.config.seeds << 'Workarea::VsgB2bBrowseNavigationSeeds'

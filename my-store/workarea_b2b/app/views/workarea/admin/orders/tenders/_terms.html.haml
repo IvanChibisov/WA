@@ -1,0 +1,6 @@
+%li
+  = t('workarea.admin.orders.tenders.terms')
+  = number_to_currency(tender.amount)
+  - if tender.purchase_order_number.present?
+    %br
+    %span #{t('workarea.admin.fields.purchase_order_number')}: #{tender.purchase_order_number}

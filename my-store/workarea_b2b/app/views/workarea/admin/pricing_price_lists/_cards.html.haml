@@ -1,0 +1,63 @@
+.grid.grid--auto.grid--flush.grid--center
+  .grid__cell
+    .card{ class: card_classes(:accounts, local_assigns[:active]) }
+      = link_to accounts_pricing_price_list_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.pricing_price_lists.cards.accounts.title')
+        = inline_svg 'workarea/admin/icons/user.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          - if model.accounts.results.empty?
+            %p.card__empty-note= t('workarea.admin.pricing_price_lists.cards.accounts.empty')
+          - else
+            .section.align-center
+              %span.heading.heading--3.heading--no-margin= model.accounts.total
+              %p= t('workarea.admin.fields.account_id').pluralize(model.accounts.total)
+
+            .section.align-center
+              %ul.list-reset
+                - model.accounts.results.take(5).each do |account|
+                  %li
+                    = account.organization.name
+                    \/
+                    %strong= account.name
+
+                - if model.accounts.total > 5
+                  %p= t('workarea.admin.cards.more', amount: model.accounts.total - 5)
+
+          = link_to accounts_pricing_price_list_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.pricing_price_lists.cards.accounts.button')
+
+  .grid__cell
+    .card{ class: card_classes(:pricing, local_assigns[:active]) }
+      = link_to pricing_pricing_price_list_path(model), class: 'card__header' do
+        %span.card__header-text= t('workarea.admin.pricing_price_lists.cards.pricing.title')
+        = inline_svg 'workarea/admin/icons/prices.svg', class: 'card__icon'
+
+      - if local_assigns[:active].blank?
+        .card__body
+          - if model.skus.results.empty?
+            %p.card__empty-note= t('workarea.admin.pricing_price_lists.cards.pricing.empty')
+          - else
+            .section.align-center
+              %span.heading.heading--3.heading--no-margin= model.skus.total
+              %p= t('workarea.admin.fields.sku').pluralize(model.skus.total)
+
+            .section.align-center
+              %ul.list-reset
+                - model.skus.results.take(5).each do |pricing_sku|
+                  %li= pricing_sku.id
+
+                - if model.skus.total > 5
+                  %p= t('workarea.admin.cards.more', amount: model.skus.total - 5)
+
+          = link_to pricing_pricing_price_list_path(model), class: 'card__button' do
+            %span.button.button--small= t('workarea.admin.pricing_price_lists.cards.pricing.button')
+
+  = append_partials('admin.pricing_price_list_cards', model: model, active: local_assigns[:active])
+
+  .grid__cell
+    = render 'workarea/admin/timeline/card', timeline: model.timeline, active: local_assigns[:active]
+
+  .grid__cell
+    = render 'workarea/admin/comments/card', commentable: model, active: local_assigns[:active]

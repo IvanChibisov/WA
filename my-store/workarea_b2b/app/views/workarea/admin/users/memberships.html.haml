@@ -1,0 +1,46 @@
+- @page_title= t('workarea.admin.users.memberships.page_title', user: @user.name)
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--25
+        = render 'workarea/admin/releases/select'
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@user)
+          %h1= link_to @user.name, url_for(@user)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@user)
+
+  .view__container
+    = render_cards_for(@user, :memberships)
+
+  .view__container.view__container--narrow
+    .section
+      %h2.view__heading= t('workarea.admin.organization_memberships.index.heading')
+
+      - if @memberships.empty?
+        %p.align-center
+          = t('workarea.admin.organization_memberships.index.none')
+      - else
+        %table.table
+          %thead
+            %tr
+              %th= t('workarea.admin.fields.account_id')
+              %th= t('workarea.admin.fields.organization_id')
+              %th= t('workarea.admin.fields.user_role')
+              %th= t('workarea.admin.fields.default')
+              %th
+          %tbody
+          - @memberships.each do |membership|
+            %tr
+              %td= link_to membership.account_name, organization_account_path(membership.account)
+              %td= membership.organization_name
+              %td= membership.role.titleize
+              %td= t("workarea.admin.#{membership.default?}")
+              %td= render 'workarea/admin/organization_memberships/actions', membership: membership
+
+    .workflow-bar
+      .align-right
+        = button_tag t('workarea.admin.organization_memberships.index.add_new'), id: 'add_membership', class: 'workflow-bar__button workflow-bar__button--create', data: { tooltip: { content_id: '#add_new_membership', interactive: true, trigger: 'click' }.to_json }, type: 'button', turbolinks: false
+        #add_new_membership= render 'workarea/admin/organization_memberships/new', user: @user

@@ -1,0 +1,15 @@
+module Workarea
+  decorate Storefront::Checkout::PlaceOrderController, with: :b2b do
+    private
+
+    def completed_place_order
+      if current_account&.require_order_approval?
+        Storefront::AccountOrderMailer.pending(current_order.id).deliver_later
+      elsif current_account.present?
+        Storefront::AccountOrderMailer.placed(current_order.id).deliver_later
+      end
+
+      super
+    end
+  end
+end

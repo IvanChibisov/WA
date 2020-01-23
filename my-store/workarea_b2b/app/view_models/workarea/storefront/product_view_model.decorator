@@ -1,0 +1,13 @@
+module Workarea
+  decorate Storefront::ProductViewModel, with: :b2b do
+    decorated do
+      delegate :retail_min_price, :retail_max_price, :pricing_list_pricing?,
+        to: :pricing
+    end
+
+    def show_retail_range?
+      return false if retail_min_price.nil? || retail_max_price.nil?
+      retail_min_price < retail_max_price
+    end
+  end
+end

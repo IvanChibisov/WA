@@ -1,0 +1,42 @@
+- @page_title = t('workarea.admin.pricing_price_lists.pricing.page_title', price_list: @price_list.name)
+
+.view
+  .view__header
+    .grid.grid--middle.grid--right
+      .grid__cell.grid__cell--50
+        .view__heading
+          = link_to_index_for(@price_list)
+          %h1= link_to @price_list.name, url_for(@price_list)
+      .grid__cell.grid__cell--25
+        = render_aux_navigation_for(@price_list)
+
+  .view__container.view__container--narrow
+    = render_cards_for(@price_list, :pricing)
+
+    .section
+      %h2.view__heading= t('workarea.admin.pricing_price_lists.pricing.heading')
+
+    .browsing-controls.browsing-controls--with-divider.browsing-controls--center
+      %p.browsing-controls__count{ data: { browsing_controls_count: @search.total } }
+        = t('workarea.admin.pricing_skus.index.sku_pluralize', count: @search.total)
+
+    - if @search.results.any?
+      %table.index-table
+        %thead
+          %tr
+            %th= t('workarea.admin.fields.sku')
+            %th.align-right= t('workarea.admin.fields.regular')
+            %th.align-right= t('workarea.admin.fields.price_list_price')
+            %th= t('workarea.admin.fields.updated_at')
+        %tbody
+          - @search.results.each do |result|
+            %tr.index-table__row{ class: ('index-table__row--inactive' unless result.active) }
+              %td
+                = link_to result.id, pricing_sku_path(result)
+                = upcoming_changesets_icon_for(result)
+              %td.align-right= number_to_currency result.regular_price
+              %td.align-right= number_to_currency result.price_list_sell_price(@price_list.id)
+              %td= local_time_ago(result.updated_at)
+
+      - if @search.results.total_pages > 1
+        = render 'workarea/admin/shared/pagination', collection: @search.results

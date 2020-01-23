@@ -1,0 +1,20 @@
+- @title = t('Authorization')
+- @checkout_step = 'authorization'
+
+= form_tag checkout_authorization_path, method: :patch, id: 'checkout_form' do
+  - if @step.show_email_field?
+    .checkout-authorization__section.checkout-authorization__section--email
+      %h2.checkout-addresses__heading= t('workarea.storefront.checkouts.email')
+      .property
+        = label_tag :email, nil, class: 'property__name' do
+          %span.property__requirement.property__requirement--required= t('workarea.storefront.forms.required')
+          %span.property__text= t('workarea.storefront.checkouts.email')
+        .value
+          = email_field_tag :email, @step.email, class: 'text-box', required: true, autocapitalize: 'off', autocomplete: 'email', placeholder: t('workarea.storefront.forms.email_placeholder')
+          - if @step.order.errors[:email].present?
+            %span.value__error= @step.order.errors[:email].first
+      %p
+        = t('workarea.storefront.checkouts.login_prompt')
+        = link_to t('workarea.storefront.checkouts.login_title'), login_path(return_to: checkout_path), data: { analytics: checkout_login_analytics_data.to_json }
+  - if @step.show_email_field?
+    %p= button_tag t('workarea.storefront.checkouts.continue_to_addresses'), value: 'continue', class: 'button button--large', data: { disable_with: loading_indicator(t('workarea.storefront.checkouts.continue_to_shipping_disabled_text')) }

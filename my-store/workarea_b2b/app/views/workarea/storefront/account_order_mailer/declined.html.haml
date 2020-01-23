@@ -1,0 +1,13 @@
+= append_partials('storefront.account_order_declined_mailer.top')
+
+%tr
+  %td
+    %h1= t('workarea.storefront.email.account_order_declined.heading', order_id: @order.id)
+
+    %p
+      %strong= t('workarea.storefront.orders.reviewed_by')
+      = @order.reviewed_by.name
+    %p= @order.review_notes
+
+= render 'workarea/storefront/order_mailer/summary', order: @order
+= append_partials('storefront.account_order_declined_mailer.bottom')

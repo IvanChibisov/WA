@@ -1,0 +1,48 @@
+- @page_title = t('workarea.organization_accounts.new.page_title')
+
+.view
+  .view__header
+    .grid
+      .grid__cell.grid__cell--50
+      .grid__cell.grid__cell--50
+        .view__heading
+          //= link_to_index_for(@account)
+          %h1= t('workarea.organization_accounts.new.page_title')
+
+  .view__container.view__container--narrow
+
+    = form_tag organization_index_path, method: :post, id: 'account_form', data: { unsaved_changes: '' } do
+
+      .section
+
+        .property.property--required
+          = label_tag 'organization_name', t('workarea.fields.organization_name'), class: 'property__name'
+          = text_field_tag 'organization[name]', @organization, class: 'text-box text-box--i18n', required: true
+
+        .property.property--required
+          = label_tag 'account_name', t('workarea.fields.name'), class: 'property__name'
+          = text_field_tag 'account[name]', @account, class: 'text-box text-box--i18n', required: true
+
+        .grid.grid--huge
+          .grid__cell.grid__cell--25
+            .property
+              = label_tag 'account_payment_terms', t('workarea.fields.payment_terms'), class: 'property__name'
+              = select_tag 'account[payment_terms]', options_for_select(payment_term_options, @account)
+
+
+          .grid__cell.grid__cell--25
+            .property
+              = label_tag 'account_tax_code', t('workarea.fields.tax_code'), class: 'property__name'
+              = text_field_tag 'account[tax_code]', @account, class: 'text-box text-box--medium'
+
+          .grid__cell.grid__cell--25
+            .property
+              = label_tag 'account_credit_limit', t('workarea.fields.credit_limit'), class: 'property__name'
+              = currency_symbol
+              = text_field_tag 'account[credit_limit]', @account, class: 'text-box text-box--medium'
+
+
+
+      .workflow-bar
+        .grid.grid--auto.grid--right.grid--middle
+          .grid__cell= button_tag t('workarea.admin.organization_accounts.new.button'), value: 'create_account', class: 'workflow-bar__button workflow-bar__button--update'

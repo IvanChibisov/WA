@@ -42,3 +42,9 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'workarea'
+
+gem 'workarea-b2b', :path => "workarea_b2b"
+
+gem 'workarea-checkout_auth_step', path: 'workarea-checkout_auth_step'
+
+gem 'workarea_repeat_block', path: 'workarea_repeat_block'
