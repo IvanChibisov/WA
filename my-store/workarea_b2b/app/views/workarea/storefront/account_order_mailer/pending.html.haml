@@ -1,8 +1,0 @@
-= append_partials('storefront.account_order_pending_mailer.top')
-
-%tr
-  %td
-    %h1= t('workarea.storefront.email.account_order_pending.heading', order_id: @order.id, account: @account.name)
-
-= render 'workarea/storefront/order_mailer/summary', order: @order
-= append_partials('storefront.account_order_pending_mailer.bottom')

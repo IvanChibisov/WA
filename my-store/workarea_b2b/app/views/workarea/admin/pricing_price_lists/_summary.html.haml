@@ -1,8 +1,0 @@
-.summary
-  = link_to pricing_price_list_path(model) do
-    %span.summary__name= model.name
-    .summary__info-container
-      .summary__info
-        #{local_time_ago(model.created_at)}
-      %span.summary__info= model.id
-    %span.summary__type= t('workarea.admin.fields.price_list_id')

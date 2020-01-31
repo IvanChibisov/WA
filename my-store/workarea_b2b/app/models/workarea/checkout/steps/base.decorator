@@ -1,7 +1,0 @@
-module Workarea
-  decorate Checkout::Steps::Base, with: :b2b do
-    decorated do
-      delegate :account, :account_payment_profile, to: :checkout, allow_nil: true
-    end
-  end
-end

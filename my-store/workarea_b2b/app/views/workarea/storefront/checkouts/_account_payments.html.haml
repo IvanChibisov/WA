@@ -1,4 +1,0 @@
-- if step.account.present?
-  .checkout-payment__section.checkout-payment__section--account{ data: { account_payments: { tenders: step.account.payment_tenders, require_account_payment: step.require_account_payment? }.to_json } }
-    - if step.require_account_payment?
-      = render_message 'warn', t('workarea.storefront.checkouts.account_payment_required', account: step.account.name)

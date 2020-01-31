@@ -5,10 +5,10 @@ PATH
       rails (~> 5.2.4, >= 5.2.4.1)
 
 PATH
-  remote: workarea_b2b
+  remote: workarea_repeat_block
   specs:
-    workarea-b2b (1.0.3)
-      workarea (~> 3.x, >= 3.4.x)
+    workarea_repeat_block (0.1.0)
+      rails (~> 5.2.4, >= 5.2.4.1)
 
 GEM
   remote: https://rubygems.org/
@@ -574,8 +574,8 @@ DEPENDENCIES
   uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
   workarea
-  workarea-b2b!
   workarea-checkout_auth_step!
+  workarea_repeat_block!
 
 RUBY VERSION
    ruby 2.6.5p114

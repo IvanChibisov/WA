@@ -1,7 +1,0 @@
-.align-right
-  = link_to organization_membership_path(membership, return_to: request.path), id: dom_id(membership, 'edit_action'), data: { tooltip: { content_id: "#update_membership_#{membership.id}", interactive: true, trigger: 'click' }.to_json }, type: 'button', turbolinks: false do
-    = inline_svg('workarea/admin/icons/edit.svg', class: 'svg-icon svg-icon--small', title: t('workarea.admin.actions.edit'))
-  = link_to organization_membership_path(membership, return_to: request.path), id: dom_id(membership, 'delete_action'), data: { method: 'delete', confirm: t('workarea.admin.actions.delete_confirmation') } do
-    = inline_svg('workarea/admin/icons/delete.svg', class: 'svg-icon svg-icon--small svg-icon--red', title: t('workarea.admin.actions.delete'))
-  .hidden
-    %div{ id: "update_membership_#{membership.id}" }= render 'workarea/admin/organization_memberships/edit', membership: membership

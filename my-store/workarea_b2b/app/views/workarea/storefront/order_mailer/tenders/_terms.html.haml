@@ -1,7 +1,0 @@
-%p
-  = "#{t('workarea.storefront.orders.terms')}: #{number_to_currency(tender.amount)}"
-
-  -if tender.purchase_order_number.present?
-    %br
-    #{t('workarea.storefront.orders.purchase_order_number')}:
-    = tender.purchase_order_number

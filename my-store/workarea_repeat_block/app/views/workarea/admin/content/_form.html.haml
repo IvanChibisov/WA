@@ -37,9 +37,11 @@
           %tr
             %th
               =form_tag delete_repeat_block_path, id: 'delete_repeat_form' do
+                = text_field_tag 'content_id', @content.id, class: 'hidden'
                 =button_tag 'delete', value: block.id, class: 'button'
             %th
               =form_tag add_repeat_block_path, id: 'add_repeat_form' do
+                = text_field_tag 'content_id', @content.id, class: 'hidden'
                 =button_tag 'add', value: block.id, class: 'button'
 
     .tabs__panel

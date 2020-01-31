@@ -1,9 +1,0 @@
-module Workarea
-  decorate Search::Admin::PricingSku, with: :b2b do
-    def facets
-      super.merge(
-        price_lists: model.prices.map(&:price_list_id).compact
-      )
-    end
-  end
-end

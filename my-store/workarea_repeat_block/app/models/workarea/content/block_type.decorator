@@ -7,24 +7,18 @@ module Workarea
 
     def repeat(&block)
       @repeat_number = @repeat_number + 1
-      1.upto(@repeat_number.to_i).map do |i|
-        fieldset = find_or_initialize_fieldset(i.ordinalize)
-        fieldset.field_suffix = " #{i}"
-        if block_given?
-          fieldset.instance_eval(&block)
-          @block_for_repeat = block
-        else
-          if @block_for_repeat != nil
-            fieldset.instance_eval(&@block_for_repeat)
-          end
+      if block_given?
+        @block_for_repeat = block
+        return series(@repeat_number, &block)
+      else
+        if @block_for_repeat != nil
+          return series(@repeat_number, &@block_for_repeat)
         end
-        fieldset
       end
     end
 
     def repeat_with_delete
-      @repeat_number -= 2
-      repeat
+      @repeat_number -= 1
     end
 
 

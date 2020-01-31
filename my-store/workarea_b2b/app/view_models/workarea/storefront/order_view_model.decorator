@@ -1,8 +1,0 @@
-module Workarea
-  decorate Storefront::OrderViewModel, with: :b2b do
-    def reviewed_by
-      return unless order.reviewed?
-      @reviewed_by ||= User.find(reviewed_by_id) rescue nil
-    end
-  end
-end

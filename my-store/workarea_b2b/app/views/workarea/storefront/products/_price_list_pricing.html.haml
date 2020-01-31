@@ -1,7 +1,0 @@
-- if product.pricing_list_pricing?
-  %p.product-prices__price
-    %span= t('workarea.storefront.products.retail')
-    - if product.show_retail_range?
-      %s #{number_to_currency product.retail_min_price} – #{number_to_currency product.retail_max_price}
-    - else
-      %s= number_to_currency product.retail_min_price

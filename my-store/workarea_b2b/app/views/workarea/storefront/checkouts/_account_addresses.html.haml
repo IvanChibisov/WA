@@ -1,3 +1,0 @@
-- if step.require_account_address?
-  .checkout-addresses__section.checkout-addresses__section--account{ data: { account_addresses: '' }}
-    = render_message 'warn', t('workarea.storefront.checkouts.account_address_required', account: step.account.name)
